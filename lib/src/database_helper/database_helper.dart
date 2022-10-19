@@ -19,6 +19,8 @@ class DatabaseHelper {
   final String colId = 'id';
   final String colCapital = 'capital';
   final String colCountry = 'country';
+  final String colDetails = 'details';
+  final String colFlag = 'flag';
 
   Future<Database?> get db async {
     return _db ?? await _initDB();
@@ -35,7 +37,9 @@ class DatabaseHelper {
       db.execute("CREATE TABLE $tableName ("
           "$colId INTEGER PRIMARY KEY,"
           "$colCapital TEXT,"
-          "$colCountry TEXT"
+          "$colCountry TEXT,"
+          "$colDetails TEXT,"
+          "$colFlag TEXT"
           ")");
     });
     return _db;

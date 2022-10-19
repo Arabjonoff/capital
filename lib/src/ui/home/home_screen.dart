@@ -1,6 +1,8 @@
+import 'package:capital/main.dart';
 import 'package:capital/src/database_helper/database_helper.dart';
 import 'package:capital/src/provider/main_provider.dart';
 import 'package:capital/src/widgets/word_list/word_list.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -68,26 +70,12 @@ class _HomeScreenState extends State<HomeScreen> {
         icon: const Icon(Icons.search),
         onPressed: _startSearch,
       ),
-      IconButton(
-        onPressed: () {
-          final mainProvider =
-          Provider.of<MainProvider>(context, listen: false);
-          // mainProvider.change();
-          _isCity = !_isCity;
-        },
-        icon: const Icon(Icons.switch_access_shortcut_rounded),
-      ),
-      IconButton(
-        onPressed: () {
-          setState(() {
-            _isDark = !_isDark;
-            // ThemeStream.setTheme.add(_isDark);
-          });
-        },
-        icon: _isDark
-            ? const Icon(Icons.dark_mode)
-            : const Icon(Icons.dark_mode_outlined),
-      ),
+      CupertinoSwitch(value: _isDark, onChanged: (value){
+        setState(() {
+          _isDark = !_isDark;
+          ThemeStream.setTheme.add(_isDark);
+        });
+      })
     ];
   }
 

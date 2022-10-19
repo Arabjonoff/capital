@@ -6,8 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-
-
 class WordListWidget extends StatefulWidget {
   const WordListWidget({Key? key}) : super(key: key);
 
@@ -22,11 +20,14 @@ class _WordListWidgetState extends State<WordListWidget> {
     loadDB();
   }
 
+  final ScrollController controller = ScrollController();
+
   Future<void> loadDB() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     bool isLoaded = prefs.getBool(Constants.IS_DATABASE_INIT) ?? false;
 
     if (!isLoaded) {
+      // ignore: use_build_context_synchronously
       await DatabaseHelper.instance.loadDB(context);
     }
     updateQuery();
@@ -49,6 +50,14 @@ class _WordListWidgetState extends State<WordListWidget> {
           ),
         );
       }),
+    );
+  }
+
+  scrollTop() {
+    controller.animateTo(
+      0,
+      duration: const Duration(milliseconds: 700),
+      curve: Curves.easeIn,
     );
   }
 

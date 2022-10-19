@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:capital/src/provider/main_provider.dart';
+import 'package:capital/src/theme/colors.dart';
 import 'package:capital/src/ui/home/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -17,11 +20,19 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData.dark(),
-      home: HomeScreen()
-    );
+    return StreamBuilder(
+      initialData: false,
+      stream: ThemeStream.setTheme.stream,
+        builder: (BuildContext context,AsyncSnapshot<dynamic> snapshot){
+      return MaterialApp(
+          title: 'Flutter Demo',
+          theme: snapshot.data ? AppTheme.dark() : AppTheme.light(),
+          home: HomeScreen()
+      );
+    });
   }
+}
+class ThemeStream {
+  static StreamController<bool> setTheme = StreamController();
 }
 
